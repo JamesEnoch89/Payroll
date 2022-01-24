@@ -1,14 +1,10 @@
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+body {
+  margin: 0;
+  font-family: 'sofia-pro', 'sans-serif';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  color: #E01A76;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

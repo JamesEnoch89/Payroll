@@ -13,13 +13,13 @@
 //    [ApiController]
 //    public class PayrollController : ControllerBase
 //    {
-//        EmployeeDataAccessLayer objemployee = new EmployeeDataAccessLayer();
+//        PayrollService _service = new PayrollService();
 
 //        [HttpGet]
 //        [Route("get/employees")]
-//        public IEnumerable<TblEmployee> GetAllEmployees()
+//        public IEnumerable<EmployeeModel> GetAllEmployees()
 //        {
-//            return objemployee.GetAllEmployees();
+//            return _service.GetAllEmployees();
 //        }
 //    }
 //}
