@@ -13,9 +13,9 @@ namespace EmployeePayRoll.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal PayPerPeriod { get; set; }
-        public int DeductionId { get; set; }
+        public int DeductionTypeId { get; set; }
 
-        public virtual Deduction Deduction { get; set; }
+        public virtual DeductionType DeductionType { get; set; }
         public virtual ICollection<Dependent> Dependent { get; set; }
     }
 }

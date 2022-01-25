@@ -1,65 +1,51 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-const AddEmployee = () => {
-  const initialEmployee = {
-    Id: null,
+const AddEmployee = ({ setEmployees }) => {
+  const employee = {
+    Id: 0,
     Name: "",
     PayPerPeriod: 0,
     TotalPay: 0,
-    Deduction: {
-      DeductionId: null,
-      DeductionAmount: 0,
-      TotalDeductionAmount: 0,
-      DeductionType: {
-        Id: 0,
-        Code: "",
-        Name: ""
-      }
-    }
+    DeductionTypeId: 0
   };
 
-  const [employee, setEmployee] = useState(initialEmployee);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleEmployeeInput = event => {
     debugger;
-    const { name, value } = event.target;
-    setEmployee({ ...employee, [name]: value });
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
   };
 
-  const saveEmployee = () => {
+  const saveEmployee = async () => {
     debugger;
+    employee.Name = searchTerm;
 
-    axios.post('api/payroll/create/employee', employee)
-      .then(response => {
-        setEmployee({
-          Id: response.data.Id,
-          Name: response.data.Name
-        });
-        console.log(response.data)
-          .catch(e => {
-            console.log(e);
-          });
-      });
+    const resp = await axios.post('api/payroll/create/employee', employee);
+    const allEmployees = resp.data;
+    setEmployees(allEmployees);
+    setSearchTerm("");
   };
 
-  return (
-    <div className="form-group">
-      <label htmlFor="employeeName">Employee Name</label>
-      <div className="row">
-        <input
-          className="form-control col-sm-2"
-          type="text"
-          name="name"
-          required="required"
-          placeholder="Enter employee name"
-          onChange={handleEmployeeInput}
-          id="employeeName"
-        />
-        <button type="submit" className="btn" onClick={saveEmployee}><i className="bi bi-person-plus-fill"></i></button>
-      </div>
+return (
+  <div className="form-group">
+    <label htmlFor="employeeName">Employee Name</label>
+    <div className="row">
+      <input
+        className="form-control col-sm-2"
+        type="text"
+        name="name"
+        required="required"
+        placeholder="Enter employee name"
+        onChange={handleEmployeeInput}
+        value={searchTerm}
+        id="employeeName"
+      />
+      <button type="submit" className="btn" onClick={saveEmployee}><i className="bi bi-person-plus-fill"></i></button>
     </div>
-  );
+  </div>
+);
 };
 
 

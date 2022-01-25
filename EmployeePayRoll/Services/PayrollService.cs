@@ -1,10 +1,8 @@
 ﻿using EmployeePayRoll.Entities;
 using EmployeePayRoll.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EmployeePayRoll.Services
 {
@@ -18,7 +16,7 @@ namespace EmployeePayRoll.Services
 
             try
             {
-                var employees = db.Employee.Include(i => i.Deduction).Include(i => i.Deduction.DeductionType).Include(i => i.Dependent).ToList();
+                var employees = db.Employee.Include(i => i.DeductionType).Include(i => i.Dependent).ToList();
 
                 var employeeModels = employees.Select(employee =>
                     new EmployeeModel
@@ -27,21 +25,40 @@ namespace EmployeePayRoll.Services
                         Name = employee.Name,
                         PayPerPeriod = employee.PayPerPeriod,
                         TotalPay = employee.PayPerPeriod * payPeriods,
-                        Deduction = new DeductionModel
-                        {
-                            DeductionId = employee.Deduction.Id,
-                            DeductionAmount = employee.Deduction.DeductionAmount,
-                            TotalDeductionAmount = employee.Deduction.DeductionAmount * payPeriods,
-                            DeductionType = new IdCodeNameModel
-                            {
-                                Id = employee.Deduction.DeductionType.Id,
-                                Code = employee.Deduction.DeductionType.DeductionCode,
-                                Name = employee.Deduction.DeductionType.DeductionName
-                            }
-                        }
+                        DeductionAmount = employee.DeductionType.DeductionAmount,
+                        TotalDeductionAmount = employee.DeductionType.DeductionAmount * payPeriods,
+                        DeductionTypeId = employee.DeductionType.Id
                     });
 
                 return employeeModels;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<EmployeeModel> AddEmployee(EmployeeModel employeeModel)
+        {
+            var payAmount = 2000;
+            var deductionTypes = db.DeductionType.ToList();
+
+            try
+            {
+                var deductionTypeId = employeeModel.Name.ToLower().StartsWith('a')
+                    ? deductionTypes.Where(w => w.DeductionCode == "NAME").Select(s => s.Id).FirstOrDefault()
+                    : deductionTypes.Where(w => w.DeductionCode == "STND").Select(s => s.Id).FirstOrDefault();
+
+                var employee = new Employee()
+                {
+                    Name = employeeModel.Name,
+                    PayPerPeriod = 2000,
+                    DeductionTypeId = deductionTypeId
+                };
+
+                db.Employee.Add(employee);
+                db.SaveChanges();
+                return GetAllEmployees();
             }
             catch
             {

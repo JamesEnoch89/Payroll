@@ -8,9 +8,9 @@ namespace EmployeePayRoll.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public int EmployeeId { get; set; }
-        public int DeductionId { get; set; }
+        public int DeductionTypeId { get; set; }
 
-        public virtual Deduction Deduction { get; set; }
+        public virtual DeductionType DeductionType { get; set; }
         public virtual Employee Employee { get; set; }
     }
 }
