@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import Employee from "./Employee";
 import EmployeeDependents from "./EmployeeDependents";
 
-const EmployeeTable = ({ employees }) => {
+const EmployeeTable = ({ employees, fetchDependents }) => {
   debugger;
   const [showDependents, setShowDependents] = useState(false);
 
@@ -25,11 +25,11 @@ const EmployeeTable = ({ employees }) => {
           <tr className="text-center">
             <th scope="col">Employee Name</th>
             <th scope="col">Pay <br />Per Period</th>
+            <th scope="col">Gross Yearly Pay</th>
             <th scope="col">Total Pay</th>
             <th scope="col">Deductions <br />Per Period</th>
             <th scope="col">Total Deductions</th>
-            <th scope="col">Dependents</th>
-            <th scope="col">Add<br /> Dependent</th>
+            <th scope="col">View/Add<br /> Dependents</th>
             <th scope="col">Delete <br />Employee</th>
           </tr>
         </thead>
@@ -39,13 +39,12 @@ const EmployeeTable = ({ employees }) => {
               key={employee.Id}
               employee={employee}
               showDependents={shouldShowDependents}
+              fetchDependents={fetchDependents}
             />
           ))}
 
         </tbody>
       </table>
-
-    {/*  <EmployeeDependents showDependents={showDependents} />*/}
     </div>
 
 

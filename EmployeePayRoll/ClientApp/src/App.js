@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import EmployeeTable from "./components/EmployeeTable";
 import AddEmployee from "./components/AddEmployee";
+import EmployeeDependents from "./components/EmployeeDependents";
 import axios from 'axios';
 
 const App = () => {
   const [employees, setEmployees] = useState([]);
+  const [showDependentData, setShowDependentData] = useState({});
 
   useEffect(() => {
     debugger;
@@ -22,6 +24,10 @@ const App = () => {
 
   }, [employees]);
 
+  const fetchDependentTableData = (data) => {
+    debugger;
+    setShowDependentData(data);
+  }
 
   return (
     <div className="app-container col-10">
@@ -31,8 +37,13 @@ const App = () => {
       <AddEmployee setEmployees={setEmployees} />
       <form>
         <EmployeeTable 
-          employees={employees} />
+          employees={employees}
+          fetchDependents={fetchDependentTableData}/>
       </form>
+
+      <EmployeeDependents showDependentData={showDependentData}
+        setShowDependentData={setShowDependentData}
+      employees={employees}/>
     </div>
   );
 };

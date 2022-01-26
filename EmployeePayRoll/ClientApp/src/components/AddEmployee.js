@@ -9,7 +9,8 @@ const AddEmployee = ({ setEmployees }) => {
     Name: "",
     PayPerPeriod: 0,
     TotalPay: 0,
-    DeductionTypeId: 0
+    DeductionTypeId: 0,
+    showDep: false
   };
 
   const handleEmployeeInput = event => {

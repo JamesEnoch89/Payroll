@@ -15,7 +15,7 @@ th {
   color: black;
 }
 
-h1 {
+h1, h3 {
   color: #ff8f1c;
 }
 
@@ -24,6 +24,23 @@ i {
   font-size: 20px;
 }
 
-#vert {
-  text-align: center;
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modal_content {
+  background-color: white;
+  position: absolute;
+}
+
+.close-button {
+  background-color: #ff8f1c;
+  color: white;
+}
+
+.dependents-table {
+  width: 50%;
 }

@@ -1,3 +1,49 @@
+import React, { useState } from "react";
+import AddDependent from "./AddDependent";
+
+const EmployeeDependents = ({ showDependentData, setShowDependentData }) => {
+  const [dependents, setDependents] = useState([]);
+
+  debugger;
+  if (!showDependentData.show) {
+    return null;
+  }
+
+  const closeDependents = () => {
+    const data =  {
+      show: false,
+      employee: showDependentData.employee
+    };
+    setShowDependentData(data);
+  }
+
+  return (
+    <div>
+      <h3 className="mb-3">Dependents for {showDependentData.employee.Name}</h3>
+      <AddDependent setDependents={setDependents} employee={showDependentData.employee} />
+
+      <table className="table table-sm table-bordered table-striped dependents-table">
+        <thead>
+          <tr className="text-center">
+            <th scope="col">Dependent Name</th>
+            <th scope="col">Deductions <br />Per Period</th>
+            <th scope="col">Total Deductions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="text-center">
+            <td>Test</td>
+            <td>Test</td>
+            <td>Test</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <button type="submit" className="btn col-1 close-button" onClick={closeDependents}>Close</button>
+    </div>
+  );
+};
+
 ////import React, { useState, useEffect } from "react";
 ////import axios from 'axios';
 
@@ -80,4 +126,4 @@
 ////  );
 ////};
 
-////export default EmployeeDependents;
+export default EmployeeDependents;
