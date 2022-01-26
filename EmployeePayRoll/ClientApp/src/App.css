@@ -21,4 +21,9 @@ h1 {
 
 i {
   color: #ff8f1c;
+  font-size: 20px;
+}
+
+#vert {
+  text-align: center;
 }

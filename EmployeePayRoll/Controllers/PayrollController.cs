@@ -24,5 +24,19 @@ namespace EmployeePayRoll.Controllers
         {
             return _service.AddEmployee(employeeModel);
         }
+
+        [HttpPost]
+        [Route("create/dependent")]
+        public IEnumerable<DependentModel> CreateDependent([FromBody] DependentModel dependentModel)
+        {
+            return _service.AddDependent(dependentModel);
+        }
+
+        [HttpGet]
+        [Route("get/employee/${employeeId:int}/dependents")]
+        public IEnumerable<DependentModel> GetDependentsByEmployeeId(int employeeId)
+        {
+            return _service.GetDependentsByEmployeeId(employeeId);
+        }
     }
 }

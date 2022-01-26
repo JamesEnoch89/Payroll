@@ -1,3 +1,4 @@
+using EmployeePayRoll.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,7 @@ namespace EmployeePayRoll
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            SqlHelper.conStr = ConfigurationExtensions.GetConnectionString(this.Configuration, "conStr");
         }
 
         public IConfiguration Configuration { get; }

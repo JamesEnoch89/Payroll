@@ -1,4 +1,5 @@
 ﻿using System;
+using EmployeePayRoll.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -23,8 +24,7 @@ namespace EmployeePayRoll.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=JENOCH03; Database=EmployeePay; User Id=sa; Password=provisionDBService;");
+                optionsBuilder.UseSqlServer(SqlHelper.GetConnection());
             }
         }
 

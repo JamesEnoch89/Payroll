@@ -12,7 +12,10 @@ namespace EmployeePayRoll.Models
         public string Name { get; set; }
         public decimal PayPerPeriod { get; set; }
         public decimal TotalPay { get; set; }
-        public decimal DeductionAmount { get; set; }
+        public string FormattedTotalPay { get; set; }
+        public decimal DeductionPerPeriod { get; set; }
         public decimal TotalDeductionAmount { get; set; }
+        public string FormattedTotalDeductionAmount { get; set; }
+        public bool HasDependent { get; set; }
     }
 }
