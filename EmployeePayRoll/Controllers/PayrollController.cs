@@ -33,10 +33,10 @@ namespace EmployeePayRoll.Controllers
         }
 
         [HttpGet]
-        [Route("get/employee/${employeeId:int}/dependents")]
-        public IEnumerable<DependentModel> GetDependentsByEmployeeId(int employeeId)
+        [Route("get/employee/{employeeId}/dependents")]
+        public IActionResult GetDependentsByEmployeeId(int employeeId)
         {
-            return _service.GetDependentsByEmployeeId(employeeId);
+            return Ok(_service.GetDependentsByEmployeeId(employeeId));
         }
     }
 }

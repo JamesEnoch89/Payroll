@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import Employee from "./Employee";
 import EmployeeDependents from "./EmployeeDependents";
 
@@ -25,10 +25,10 @@ const EmployeeTable = ({ employees, fetchDependents }) => {
           <tr className="text-center">
             <th scope="col">Employee Name</th>
             <th scope="col">Pay <br />Per Period</th>
-            <th scope="col">Gross Yearly Pay</th>
-            <th scope="col">Total Pay</th>
             <th scope="col">Deductions <br />Per Period</th>
+            <th scope="col">Gross Yearly Pay</th>
             <th scope="col">Total Deductions</th>
+            <th scope="col">Net Pay</th>
             <th scope="col">View/Add<br /> Dependents</th>
             <th scope="col">Delete <br />Employee</th>
           </tr>

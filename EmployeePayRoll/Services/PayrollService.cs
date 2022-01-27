@@ -23,19 +23,19 @@ namespace EmployeePayRoll.Services
 
             try
             {
-                var employees = db.Employee.Include(i => i.DeductionType).Include(i => i.Dependent).ToList();
+                var employees = db.Employee.Include(i => i.DeductionType).Include(i => i.Dependent).ThenInclude(x => x.DeductionType).ToList();
 
                 var employeeModels = employees.Select(employee =>
                     new EmployeeModel
                     {
                         Id = employee.Id,
                         Name = employee.Name,
-                        PayPerPeriod = decimal.Round(employee.PayPerPeriod / payPeriods, 2, MidpointRounding.AwayFromZero),
-                        FormattedTotalPay = (employee.PayPerPeriod * payPeriods).ToString("n", CultureInfo.GetCultureInfo("en-US")),
-                        TotalPay = employee.PayPerPeriod * payPeriods,
+                        PayPerPeriod = decimal.Round(employee.PayPerPeriod, 2, MidpointRounding.AwayFromZero),
+                        GrossPay = employee.PayPerPeriod * payPeriods,
                         DeductionPerPeriod = decimal.Round(employee.DeductionType.DeductionAmount / payPeriods, 2, MidpointRounding.AwayFromZero),
-                        TotalDeductionAmount = employee.DeductionType.DeductionAmount,
-                        FormattedTotalDeductionAmount = (employee.DeductionType.DeductionAmount).ToString("n", CultureInfo.GetCultureInfo("en-US")),
+                        TotalEmployeeDeductionAmount = employee.DeductionType.DeductionAmount,
+                        TotalDependentDeductionAmount = employee.Dependent.Any() ? employee.Dependent.Sum(s => s.DeductionType.DeductionAmount) : 0,
+                        DependentDeductionAmountPerPeriod = employee.Dependent.Any() ? decimal.Round(employee.Dependent.Sum(s => s.DeductionType.DeductionAmount) / payPeriods, 2, MidpointRounding.AwayFromZero) : 0,
                         DeductionTypeId = employee.DeductionType.Id,
                         HasDependent = employee.Dependent.Any()
                     });

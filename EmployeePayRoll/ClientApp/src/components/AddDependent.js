@@ -14,13 +14,11 @@ const AddDependent = ({ setDependents, employee }) => {
   };
 
   const handleDependentInput = event => {
-    debugger;
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
   };
 
   const saveDependent = async () => {
-    debugger;
     dependent.Name = searchTerm;
 
     const resp = await axios.post('api/payroll/create/dependent', dependent);

@@ -10,7 +10,6 @@ const App = () => {
   const [showDependentData, setShowDependentData] = useState({});
 
   useEffect(() => {
-    debugger;
     const getEmployees = async () => {
       const res = await axios.get('api/payroll/get/employees');
       const { data } = await res;
@@ -25,7 +24,6 @@ const App = () => {
   }, [employees]);
 
   const fetchDependentTableData = (data) => {
-    debugger;
     setShowDependentData(data);
   }
 
@@ -40,10 +38,10 @@ const App = () => {
           employees={employees}
           fetchDependents={fetchDependentTableData}/>
       </form>
-
-      <EmployeeDependents showDependentData={showDependentData}
-        setShowDependentData={setShowDependentData}
-      employees={employees}/>
+      {!showDependentData.show ? null :
+        <EmployeeDependents showDependentData={showDependentData}
+          setShowDependentData={setShowDependentData}
+          employees={employees} />}
     </div>
   );
 };

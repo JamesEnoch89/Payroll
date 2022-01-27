@@ -3,10 +3,9 @@ import React, { useState } from "react";
 const Employee = (props) => {
   debugger;
   const employee = props.employee;
-  const [showDependents, setShowDependents] = useState(false);
+  //const [showDependents, setShowDependents] = useState(false);
 
   const toggleDependentsTable = () => {
-    debugger;
     props.fetchDependents(
       {
         show: true,
@@ -14,14 +13,19 @@ const Employee = (props) => {
       });
   }
 
+  const stringifyDecimal = (decimal) => {
+    debugger;
+    return decimal.toLocaleString();
+  }
+
   return (
     <tr className="text-center">
       <td>{employee.Name}</td>
-      <td>${employee.PayPerPeriod}</td>
-      <td>${employee.FormattedTotalPay}</td>
-      <td>${employee.FormattedTotalPay}</td>
-      <td>${employee.DeductionPerPeriod}</td>
-      <td>${employee.FormattedTotalDeductionAmount}</td>
+      <td>${stringifyDecimal(employee.PayPerPeriod)}</td>
+      <td>${employee.DeductionPerPeriod + employee.DependentDeductionAmountPerPeriod}</td>
+      <td>${stringifyDecimal(employee.GrossPay)}</td>
+      <td>${stringifyDecimal(employee.TotalEmployeeDeductionAmount + employee.TotalDependentDeductionAmount)}</td>
+      <td>${stringifyDecimal(employee.GrossPay - (employee.TotalDependentDeductionAmount + employee.TotalEmployeeDeductionAmount))}</td>
       <td>
         <i className="bi bi-search" onClick={toggleDependentsTable}></i>
       </td>
