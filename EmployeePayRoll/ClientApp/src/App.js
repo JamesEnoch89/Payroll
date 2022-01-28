@@ -11,7 +11,6 @@ const App = () => {
   const [shouldUpdateEmployees, setShouldUpdateEmployees] = useState(false);
 
   useEffect(() => {
-    debugger;
     const getEmployees = async () => {
       const res = await axios.get('api/payroll/get/employees');
       const { data } = await res;

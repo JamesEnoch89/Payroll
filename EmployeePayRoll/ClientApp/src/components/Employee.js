@@ -13,7 +13,6 @@ const Employee = (props) => {
   }
 
   const deleteEmployee = async () => {
-    debugger;
     const res = await axios.delete(`api/payroll/delete/employee/${employee.Id}`);
     const deletedEmployeeId = res.data;
 

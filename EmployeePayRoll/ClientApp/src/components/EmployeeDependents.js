@@ -6,7 +6,6 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData, setShould
   const [dependents, setDependents] = useState([]);
 
   useEffect(() => {
-    debugger;
     const getDependents = async () => {
       const res = await axios.get(`api/payroll/get/employee/${showDependentData.employee.Id}/dependents`);
       const { data } = await res;
