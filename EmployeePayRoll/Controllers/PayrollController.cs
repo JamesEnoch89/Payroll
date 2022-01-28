@@ -38,5 +38,12 @@ namespace EmployeePayRoll.Controllers
         {
             return Ok(_service.GetDependentsByEmployeeId(employeeId));
         }
+
+        [HttpDelete]
+        [Route("delete/employee/{employeeId}")]
+        public void DeleteEmployee(int employeeId)
+        {
+            _service.DeleteEmployee(employeeId);
+        }
     }
 }

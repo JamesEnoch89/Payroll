@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import axios from 'axios';
 
 const Employee = (props) => {
-  debugger;
   const employee = props.employee;
-  //const [showDependents, setShowDependents] = useState(false);
 
   const toggleDependentsTable = () => {
     props.fetchDependents(
@@ -13,8 +12,13 @@ const Employee = (props) => {
       });
   }
 
+  const deleteEmployee = async () => {
+    axios.delete(`api/payroll/delete/employee/${employee.Id}`);
+    let activeEmployees = props.employees.filter(emp => emp.Id !== employee.Id);
+    props.setEmployees(activeEmployees);
+  };
+
   const stringifyDecimal = (decimal) => {
-    debugger;
     return decimal.toLocaleString();
   }
 
@@ -29,7 +33,7 @@ const Employee = (props) => {
       <td>
         <i className="bi bi-search" onClick={toggleDependentsTable}></i>
       </td>
-      <td><i className="bi bi-x"></i></td>
+      <td><i className="bi bi-x" onClick={deleteEmployee}></i></td>
     </tr>
   );
 };

@@ -6,7 +6,6 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData, setShould
   const [dependents, setDependents] = useState([]);
 
   useEffect(() => {
-    debugger;
     const getDependents = async () => {
       const res = await axios.get(`api/payroll/get/employee/${showDependentData.employee.Id}/dependents`);
       const { data } = await res;
@@ -42,14 +41,13 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData, setShould
           </tr>
         </thead>
         <tbody>
-          {dependents.map((dependent) => (
-            <tr className="text-center" key={dependent.Id}>
+          {dependents.map((dependent) => {
+            return <tr className="text-center" key={dependent.DependentId}>
               <td>{dependent.Name}</td>
-              <td>Test</td>
-              <td>Test</td>
+              <td>${dependent.DeductionAmountPerPeriod}</td>
+              <td>${dependent.DeductionAmount.toLocaleString()}</td>
             </tr>
-          ))}
-
+          })}
         </tbody>
       </table>
       <button type="submit" className="btn col-1 close-button" onClick={closeDependents}>Close</button>

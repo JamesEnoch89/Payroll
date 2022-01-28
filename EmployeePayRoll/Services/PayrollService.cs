@@ -3,24 +3,17 @@ using EmployeePayRoll.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
-
-//To Do
-// If time allots create generic 'BenefitMember' Interface
-// Both Employees and Dependents will use the same methods
-// Would need to adjust data model to have a 'BenefitMemberType' to pass in to IBenefitMember
 namespace EmployeePayRoll.Services
 {
     public class PayrollService
     {
+        public static int PayPeriods = 26;
         EmployeePayContext db = new EmployeePayContext();
 
         public IEnumerable<EmployeeModel> GetAllEmployees()
         {
-            var payPeriods = 26;
-
             try
             {
                 var employees = db.Employee.Include(i => i.DeductionType).Include(i => i.Dependent).ThenInclude(x => x.DeductionType).ToList();
@@ -30,12 +23,12 @@ namespace EmployeePayRoll.Services
                     {
                         Id = employee.Id,
                         Name = employee.Name,
-                        PayPerPeriod = decimal.Round(employee.PayPerPeriod, 2, MidpointRounding.AwayFromZero),
-                        GrossPay = employee.PayPerPeriod * payPeriods,
-                        DeductionPerPeriod = decimal.Round(employee.DeductionType.DeductionAmount / payPeriods, 2, MidpointRounding.AwayFromZero),
+                        PayPerPeriod = FormatDecimal(employee.PayPerPeriod),
+                        GrossPay = employee.PayPerPeriod * PayPeriods,
+                        DeductionPerPeriod = FormatDecimal(employee.DeductionType.DeductionAmount / PayPeriods),
                         TotalEmployeeDeductionAmount = employee.DeductionType.DeductionAmount,
                         TotalDependentDeductionAmount = employee.Dependent.Any() ? employee.Dependent.Sum(s => s.DeductionType.DeductionAmount) : 0,
-                        DependentDeductionAmountPerPeriod = employee.Dependent.Any() ? decimal.Round(employee.Dependent.Sum(s => s.DeductionType.DeductionAmount) / payPeriods, 2, MidpointRounding.AwayFromZero) : 0,
+                        DependentDeductionAmountPerPeriod = employee.Dependent.Any() ? FormatDecimal(employee.Dependent.Sum(s => s.DeductionType.DeductionAmount) / PayPeriods) : 0,
                         DeductionTypeId = employee.DeductionType.Id,
                         HasDependent = employee.Dependent.Any()
                     });
@@ -50,7 +43,6 @@ namespace EmployeePayRoll.Services
 
         public IEnumerable<EmployeeModel> AddEmployee(EmployeeModel employeeModel)
         {
-            var payAmount = 2000;
             var deductionTypes = db.DeductionType.ToList();
             var standardEmpDeduction = deductionTypes.Where(w => w.DeductionCode == "STND").Select(s => s.Id).FirstOrDefault();
             var specialEmpDeduction = deductionTypes.Where(w => w.DeductionCode == "SPE").Select(s => s.Id).FirstOrDefault();
@@ -109,8 +101,6 @@ namespace EmployeePayRoll.Services
 
         public IEnumerable<DependentModel> GetDependentsByEmployeeId(int employeeId)
         {
-            var payPeriods = 26;
-
             try
             {
                 var dependents = db.Dependent.Include(i => i.DeductionType).Include(i => i.Employee).Where(w => w.EmployeeId == employeeId).ToList();
@@ -118,12 +108,13 @@ namespace EmployeePayRoll.Services
                 var dependentModels = dependents.Select(dependent =>
                     new DependentModel
                     {
-                         DependentId = dependent.Id,
-                         EmployeeId = dependent.EmployeeId,
-                         DeductionTypeId = dependent.DeductionTypeId,
-                         DeductionAmount = dependent.DeductionType.DeductionAmount,
-                         Name = dependent.Name,
-                         EmployeeName = dependent.Employee.Name
+                        DependentId = dependent.Id,
+                        EmployeeId = dependent.EmployeeId,
+                        DeductionTypeId = dependent.DeductionTypeId,
+                        DeductionAmount = dependent.DeductionType.DeductionAmount,
+                        DeductionAmountPerPeriod = FormatDecimal(dependent.DeductionType.DeductionAmount / PayPeriods),
+                        Name = dependent.Name,
+                        EmployeeName = dependent.Employee.Name
                     });
 
                 return dependentModels;
@@ -132,6 +123,26 @@ namespace EmployeePayRoll.Services
             {
                 throw;
             }
+        }
+
+        public void DeleteEmployee(int employeeId)
+        {
+            var dependents = db.Dependent.Where(w => w.EmployeeId == employeeId);
+
+            if (dependents != null)
+            {
+                db.Dependent.RemoveRange(dependents);
+            }
+
+            var employee = db.Employee.Where(w => w.Id == employeeId).FirstOrDefault();
+
+            db.Employee.Remove(employee);
+            db.SaveChanges();
+        }
+
+        private decimal FormatDecimal(decimal amount) 
+        {
+            return decimal.Round(amount, 2, MidpointRounding.AwayFromZero);
         }
     }
 }

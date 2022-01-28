@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import EmployeeTable from "./components/EmployeeTable";
 import AddEmployee from "./components/AddEmployee";
 import EmployeeDependents from "./components/EmployeeDependents";
 import axios from 'axios';
+import "./App.css";
 
 const App = () => {
   const [employees, setEmployees] = useState([]);
@@ -16,7 +16,11 @@ const App = () => {
       const { data } = await res;
 
       setEmployees(data);
-      setShouldUpdateEmployees(false);
+
+      // reset call to update employees to false after fetching employee data for new dependnt
+      if (shouldUpdateEmployees) {
+        setShouldUpdateEmployees(!shouldUpdateEmployees);
+      }
     };
 
     if (!employees.length || shouldUpdateEmployees) {
@@ -25,6 +29,7 @@ const App = () => {
 
   }, [employees, shouldUpdateEmployees]);
 
+  // callback function to show dependents grid and set employee id to search on
   const fetchDependentTableData = (data) => {
     setShowDependentData(data);
   }
@@ -38,7 +43,8 @@ const App = () => {
       <form>
         <EmployeeTable
           employees={employees}
-          fetchDependents={fetchDependentTableData} />
+          fetchDependents={fetchDependentTableData}
+          setEmployees={setEmployees}/>
       </form>
       {!showDependentData.show ? null :
         <EmployeeDependents showDependentData={showDependentData}

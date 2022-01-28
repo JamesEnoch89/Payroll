@@ -1,22 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Employee from "./Employee";
-import EmployeeDependents from "./EmployeeDependents";
 
-const EmployeeTable = ({ employees, fetchDependents }) => {
-  debugger;
-  const [showDependents, setShowDependents] = useState(false);
-
-  const shouldShowDependents = (data) => {
-    debugger;
-    console.log(data);
-    setShowDependents(data);
-  }
-  //const employee = props.employee;
-
-  //const toggleDependentsTable = () => {
-  //  debugger;
-  //  props.showDependents(true);
-  //}
+const EmployeeTable = ({ employees, fetchDependents, setEmployees }) => {
 
   return (
     <div>
@@ -38,16 +23,15 @@ const EmployeeTable = ({ employees, fetchDependents }) => {
             <Employee
               key={employee.Id}
               employee={employee}
-              showDependents={shouldShowDependents}
               fetchDependents={fetchDependents}
+              employees={employees}
+              setEmployees={setEmployees}
             />
           ))}
 
         </tbody>
       </table>
     </div>
-
-
   );
 };
 
