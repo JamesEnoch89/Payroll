@@ -34,7 +34,7 @@ const App = () => {
   return (
     <div className="app-container col-10">
       <header className="text-center">
-        <h1><i className="bi bi-piggy-bank"></i > Employee Payroll <i className="bi bi-piggy-bank"></i></h1>
+        <h1><i className="bi bi-piggy-bank header-icon"></i > Employee Payroll <i className="bi bi-piggy-bank header-icon"></i></h1>
       </header>
       <AddEmployee setEmployees={setEmployees} />
       <form>

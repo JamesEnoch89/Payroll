@@ -24,6 +24,10 @@ i {
   font-size: 20px;
 }
 
+.header-icon {
+  font-size: 40px;
+}
+
 .modal {
   display: none;
   position: fixed;

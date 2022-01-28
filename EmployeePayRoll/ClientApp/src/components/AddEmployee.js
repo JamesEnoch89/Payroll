@@ -15,10 +15,15 @@ const AddEmployee = ({ setEmployees }) => {
 
   const handleEmployeeInput = event => {
     const searchTerm = event.target.value;
+
     setSearchTerm(searchTerm);
   };
 
   const saveEmployee = async () => {
+    if (!searchTerm) {
+      return alert('Please add a name!');
+    }
+
     employee.Name = searchTerm;
 
     const resp = await axios.post('api/payroll/create/employee', employee);
