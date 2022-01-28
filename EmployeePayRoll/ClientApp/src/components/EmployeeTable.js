@@ -1,7 +1,7 @@
 import React from "react";
 import Employee from "./Employee";
 
-const EmployeeTable = ({ employees, fetchDependents, setEmployees }) => {
+const EmployeeTable = ({ employees, fetchDependents, setEmployees, setShouldUpdateEmployees }) => {
 
   return (
     <div>
@@ -26,6 +26,7 @@ const EmployeeTable = ({ employees, fetchDependents, setEmployees }) => {
               fetchDependents={fetchDependents}
               employees={employees}
               setEmployees={setEmployees}
+              setShouldUpdateEmployees={setShouldUpdateEmployees}
             />
           ))}
 

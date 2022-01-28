@@ -125,7 +125,7 @@ namespace EmployeePayRoll.Services
             }
         }
 
-        public void DeleteEmployee(int employeeId)
+        public int DeleteEmployee(int employeeId)
         {
             var dependents = db.Dependent.Where(w => w.EmployeeId == employeeId);
 
@@ -138,6 +138,8 @@ namespace EmployeePayRoll.Services
 
             db.Employee.Remove(employee);
             db.SaveChanges();
+
+            return employeeId;
         }
 
         private decimal FormatDecimal(decimal amount) 

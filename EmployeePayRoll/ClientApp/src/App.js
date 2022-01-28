@@ -11,23 +11,21 @@ const App = () => {
   const [shouldUpdateEmployees, setShouldUpdateEmployees] = useState(false);
 
   useEffect(() => {
+    debugger;
     const getEmployees = async () => {
       const res = await axios.get('api/payroll/get/employees');
       const { data } = await res;
 
       setEmployees(data);
 
-      // reset call to update employees to false after fetching employee data for new dependnt
-      if (shouldUpdateEmployees) {
-        setShouldUpdateEmployees(!shouldUpdateEmployees);
-      }
+      setShouldUpdateEmployees(false);
     };
 
     if (!employees.length || shouldUpdateEmployees) {
       getEmployees();
     }
 
-  }, [employees, shouldUpdateEmployees]);
+  }, [shouldUpdateEmployees]);
 
   // callback function to show dependents grid and set employee id to search on
   const fetchDependentTableData = (data) => {
@@ -44,13 +42,15 @@ const App = () => {
         <EmployeeTable
           employees={employees}
           fetchDependents={fetchDependentTableData}
-          setEmployees={setEmployees}/>
+          setEmployees={setEmployees}
+          setShouldUpdateEmployees={setShouldUpdateEmployees}/>
       </form>
       {!showDependentData.show ? null :
         <EmployeeDependents showDependentData={showDependentData}
           setShowDependentData={setShowDependentData}
           employees={employees}
-          setShouldUpdateEmployees={setShouldUpdateEmployees} />}
+          setShouldUpdateEmployees={setShouldUpdateEmployees}
+          shouldUpdateEmployees={shouldUpdateEmployees} />}
     </div>
   );
 };

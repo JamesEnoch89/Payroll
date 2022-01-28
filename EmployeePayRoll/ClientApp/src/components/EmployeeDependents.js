@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import AddDependent from "./AddDependent";
 import axios from 'axios';
 
-const EmployeeDependents = ({ showDependentData, setShowDependentData, setShouldUpdateEmployees }) => {
+const EmployeeDependents = ({ showDependentData, setShowDependentData, setShouldUpdateEmployees, shouldUpdateEmployees }) => {
   const [dependents, setDependents] = useState([]);
 
   useEffect(() => {
+    debugger;
     const getDependents = async () => {
       const res = await axios.get(`api/payroll/get/employee/${showDependentData.employee.Id}/dependents`);
       const { data } = await res;
@@ -13,11 +14,11 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData, setShould
       setDependents(data);
     };
 
-    if (!dependents.length || dependents.some(d => d.EmployeeId !== showDependentData.employee.Id)) {
+    if (!dependents.length || dependents.some(d => d.EmployeeId !== showDependentData.employee.Id) || shouldUpdateEmployees) {
       getDependents();
     }
 
-  }, [showDependentData.employee.Id]);
+  }, [showDependentData.employee.Id, shouldUpdateEmployees]);
 
   const closeDependents = () => {
     const data = {

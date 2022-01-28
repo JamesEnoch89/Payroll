@@ -41,9 +41,9 @@ namespace EmployeePayRoll.Controllers
 
         [HttpDelete]
         [Route("delete/employee/{employeeId}")]
-        public void DeleteEmployee(int employeeId)
+        public int DeleteEmployee(int employeeId)
         {
-            _service.DeleteEmployee(employeeId);
+            return _service.DeleteEmployee(employeeId);
         }
     }
 }
