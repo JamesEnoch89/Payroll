@@ -44,7 +44,7 @@ const App = () => {
           setEmployees={setEmployees}
           setShouldUpdateEmployees={setShouldUpdateEmployees}/>
       </form>
-      {!showDependentData.show ? null :
+      {!showDependentData.show || !employees ? null :
         <EmployeeDependents showDependentData={showDependentData}
           setShowDependentData={setShowDependentData}
           employees={employees}

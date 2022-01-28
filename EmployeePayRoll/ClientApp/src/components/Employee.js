@@ -14,11 +14,15 @@ const Employee = (props) => {
 
   const deleteEmployee = async () => {
     const res = await axios.delete(`api/payroll/delete/employee/${employee.Id}`);
-    const deletedEmployeeId = res.data;
 
-    let activeEmployees = props.employees.filter(emp => emp.Id !== deletedEmployeeId);
-    props.setEmployees(activeEmployees);
     props.setShouldUpdateEmployees(true);
+
+    // close dependents table
+    props.fetchDependents(
+      {
+        show: false,
+        employee: {}
+      });
   };
 
   const stringifyDecimal = (decimal) => {
