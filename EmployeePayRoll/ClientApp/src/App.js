@@ -8,6 +8,7 @@ import axios from 'axios';
 const App = () => {
   const [employees, setEmployees] = useState([]);
   const [showDependentData, setShowDependentData] = useState({});
+  const [shouldUpdateEmployees, setShouldUpdateEmployees] = useState(false);
 
   useEffect(() => {
     const getEmployees = async () => {
@@ -15,13 +16,14 @@ const App = () => {
       const { data } = await res;
 
       setEmployees(data);
+      setShouldUpdateEmployees(false);
     };
 
-    if (!employees.length) {
+    if (!employees.length || shouldUpdateEmployees) {
       getEmployees();
     }
 
-  }, [employees]);
+  }, [employees, shouldUpdateEmployees]);
 
   const fetchDependentTableData = (data) => {
     setShowDependentData(data);
@@ -34,14 +36,15 @@ const App = () => {
       </header>
       <AddEmployee setEmployees={setEmployees} />
       <form>
-        <EmployeeTable 
+        <EmployeeTable
           employees={employees}
-          fetchDependents={fetchDependentTableData}/>
+          fetchDependents={fetchDependentTableData} />
       </form>
       {!showDependentData.show ? null :
         <EmployeeDependents showDependentData={showDependentData}
           setShowDependentData={setShowDependentData}
-          employees={employees} />}
+          employees={employees}
+          setShouldUpdateEmployees={setShouldUpdateEmployees} />}
     </div>
   );
 };

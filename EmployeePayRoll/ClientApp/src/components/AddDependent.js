@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 
-const AddDependent = ({ setDependents, employee }) => {
+const AddDependent = ({ setDependents, employee, setShouldUpdateEmployees }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const dependent = {
@@ -25,6 +25,7 @@ const AddDependent = ({ setDependents, employee }) => {
     const allDependents = resp.data;
     setDependents(allDependents);
     setSearchTerm("");
+    setShouldUpdateEmployees(true);
   };
 
   return (

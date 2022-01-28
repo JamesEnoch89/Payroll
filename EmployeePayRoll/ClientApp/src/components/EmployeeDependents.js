@@ -2,24 +2,23 @@ import React, { useState, useEffect } from "react";
 import AddDependent from "./AddDependent";
 import axios from 'axios';
 
-const EmployeeDependents = ({ showDependentData, setShowDependentData }) => {
+const EmployeeDependents = ({ showDependentData, setShowDependentData, setShouldUpdateEmployees }) => {
   const [dependents, setDependents] = useState([]);
 
   useEffect(() => {
     debugger;
     const getDependents = async () => {
-      let empId = showDependentData.employee.Id;
-      const res = await axios.get(`api/payroll/get/employee/${empId}/dependents`);
+      const res = await axios.get(`api/payroll/get/employee/${showDependentData.employee.Id}/dependents`);
       const { data } = await res;
 
       setDependents(data);
     };
 
-    if (!dependents.length) {
+    if (!dependents.length || dependents.some(d => d.EmployeeId !== showDependentData.employee.Id)) {
       getDependents();
     }
 
-  }, [dependents]);
+  }, [showDependentData.employee.Id]);
 
   const closeDependents = () => {
     const data = {
@@ -32,7 +31,7 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData }) => {
   return (
     <div>
       <h3 className="mb-3">Dependents for {showDependentData.employee.Name}</h3>
-      <AddDependent setDependents={setDependents} employee={showDependentData.employee} />
+      <AddDependent setDependents={setDependents} employee={showDependentData.employee} setShouldUpdateEmployees={setShouldUpdateEmployees}/>
 
       <table className="table table-sm table-bordered table-striped dependents-table">
         <thead>
@@ -44,7 +43,7 @@ const EmployeeDependents = ({ showDependentData, setShowDependentData }) => {
         </thead>
         <tbody>
           {dependents.map((dependent) => (
-            <tr className="text-center">
+            <tr className="text-center" key={dependent.Id}>
               <td>{dependent.Name}</td>
               <td>Test</td>
               <td>Test</td>
